@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const MEMORY_KEY_PREFIX = '@MemoryStorage:';
 let dataMemory = {};
@@ -73,7 +73,9 @@ class MemoryStorage {
 	static sync(callback) {
 		AsyncStorage.getAllKeys((errKeys, keys) => {
 			if (errKeys) return callback(errKeys, null);
-			const memoryKeys = keys.filter(key => key.startsWith(MEMORY_KEY_PREFIX));
+			const memoryKeys = keys.filter((key) =>
+				key.startsWith(MEMORY_KEY_PREFIX)
+			);
 			AsyncStorage.multiGet(memoryKeys, (err, stores) => {
 				if (err) return callback(err, null);
 				stores.map((result, index, store) => {
